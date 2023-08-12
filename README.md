@@ -1,4 +1,4 @@
 A Real-time Chat Application
-
-i)able to send images to others.
-ii)All messages are fetched in realtime.
+i)Built using ReactJs, FireBase
+ii)able to send images to others.
+iii)All messages are fetched in realtime.
