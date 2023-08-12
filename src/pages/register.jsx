@@ -19,40 +19,44 @@ const Register = () => {
         const file = e.target[3].files[0];
 
         try {
+            //Create user
+            console.log({ displayName, email, password })
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            const storageRef = ref(storage, displayName);
 
-            const uploadTask = uploadBytesResumable(storageRef, file);
+            //Create a unique image name
+            const date = new Date().getTime();
+            const storageRef = ref(storage, `${displayName + date}`);
 
-
-            uploadTask.on('state_changed', (snapshot) => { },
-                (error) => {
-                    setErr(true);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await uploadBytesResumable(storageRef, file).then(() => {
+                getDownloadURL(storageRef).then(async (downloadURL) => {
+                    try {
+                        //Update profile
                         await updateProfile(res.user, {
                             displayName,
-                            photoURL: downloadURL
+                            photoURL: downloadURL,
                         });
-
+                        //create user on firestore
                         await setDoc(doc(db, "users", res.user.uid), {
                             uid: res.user.uid,
                             displayName,
                             email,
-                            photoURL: downloadURL
+                            photoURL: downloadURL,
                         });
 
+                        //create empty user chats on firestore
                         await setDoc(doc(db, "userChats", res.user.uid), {});
                         navigate("/");
-                    });
-                }
-            );
-
-        } catch (error) {
+                    } catch (err) {
+                        console.log(err);
+                        setErr(true);
+                        // setLoading(false);
+                    }
+                });
+            });
+        } catch (err) {
             setErr(true);
+            // setLoading(false);
         }
-
     };
 
 
@@ -64,7 +68,7 @@ const Register = () => {
                 <form onSubmit={handleSubmit}>
                     <input type="text" name='username' placeholder='displayname' />
                     <input type="email" name="email" placeholder='email' />
-                    <input type="password" name='password' placeholder='password' />
+                    <input type="password" name='password' placeholder='password' minLength={6} />
                     <input style={{ display: "none" }} type="file" id='file' />
                     <label htmlFor="file"><img src={Add} alt="add Avatar" /> Add avatar</label>
                     <button>sign up</button>

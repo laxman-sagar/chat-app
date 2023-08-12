@@ -19,6 +19,7 @@ const Login = () => {
         }
         catch (error) {
             setErr(true);
+            console.log(error)
         }
 
     };
@@ -30,7 +31,7 @@ const Login = () => {
                 <span className='title'>Login</span>
                 <form onSubmit={handleSubmit}>
                     <input type="email" name="email" placeholder='email' />
-                    <input type="password" name='password' placeholder='password' />
+                    <input type="password" name='password' placeholder='password' minLength={6} />
                     <button>sign up</button>
                     {err && <span>Something went wrong</span>}
                 </form>

@@ -183,8 +183,11 @@ body {
 
           p {
             font-size: 14px;
-            color: lightgray;
+            color: grey;
             margin: 0;
+            &:hover {
+              color: white;
+            }
           }
         }
       }
@@ -199,13 +202,15 @@ body {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px;
+        padding: 10px 20px;
         color: white;
+        font-size: 20px;
 
         .chaticons {
           img {
             width: 24px;
             height: 24px;
+            margin-right: 10px;
           }
         }
       }
@@ -224,7 +229,7 @@ body {
           .messageinfo {
             display: flex;
             flex-direction: column;
-            color: grey;
+            color: rgb(104, 103, 103);
             font-weight: 300;
 
             img {

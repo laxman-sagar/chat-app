@@ -14,7 +14,6 @@ const Message = ({ message }) => {
 
 
 
-
     return (
         <div ref={ref}
             className={`message ${message.senderId === currentUser.uid && "owner"}`}>
@@ -23,7 +22,7 @@ const Message = ({ message }) => {
                     ? currentUser.photoURL
                     : data.user.photoURL
                 } alt="" />
-                <span>JustNow</span>
+                <span>{console.log(message.date)}</span>
             </div>
             <div className="messagecontent">
                 <p>{message.text}</p>
