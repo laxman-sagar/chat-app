@@ -14,7 +14,7 @@ const Login = () => {
         const password = e.target[1].value;
 
         try {
-            signInWithEmailAndPassword(auth, email, password);
+          await signInWithEmailAndPassword(auth, email, password);
             navigate('/');
         }
         catch (error) {
